@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Act 6: Screen Responsiveness</title>
+<style>
+  /* ---------- Mobile first (default): up to 767px ---------- */
+  :root {
+    --gap: 10px;        /* space between boxes */
+    --pad: 16px;        /* space around the whole layout */
+    --view: "Mobile view";
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, "Segoe UI", sans-serif; background: #f1f1f4; color: #111; }
+
+  /* Shows which view you are in. Remove this block if not needed. */
+  body::before {
+    content: var(--view) " | gap " var(--gap);
+    position: fixed; top: 8px; right: 8px; z-index: 10;
+    padding: 6px 12px; background: #111; color: #fff; font-size: 13px;
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 1fr;   /* one column = boxes stack and the page scrolls vertically */
+    gap: var(--gap);
+    padding: var(--pad);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .box {
+    display: grid; place-items: center;
+    min-height: 220px; background: #fff; border: 2px solid #111;
+    font-size: 3rem; font-weight: 700;
+  }
+
+  /* ---------- Tablet: 768px to 1023px ---------- */
+  @media (min-width: 768px) {
+    :root { --gap: 24px; --pad: 32px; --view: "Tablet view"; }
+    .container { grid-template-columns: 1fr 1fr; }   /* two columns */
+    .box-1 { grid-column: 1 / -1; }                  /* box 1 stretches across the top */
+  }
+
+  /* ---------- Desktop: 1024px and up ---------- */
+  @media (min-width: 1024px) {
+    :root { --gap: 40px; --pad: 48px; --view: "Desktop view"; }
+    .box { min-height: 280px; }
+    .box-1 { min-height: 240px; }                    /* top box stays stretched, boxes 2 and 3 sit below it */
+  }
+</style>
+</head>
+<body>
+
+  <main class="container">
+    <section class="box box-1">1</section>
+    <section class="box box-2">2</section>
+    <section class="box box-3">3</section>
+  </main>
+
+</body>
+</html>

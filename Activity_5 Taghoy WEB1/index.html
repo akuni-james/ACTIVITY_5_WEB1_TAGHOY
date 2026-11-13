@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Republic of Gamers | Home</title>
+<!-- Fonts: need internet. Fallbacks are set if offline. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Chakra+Petch:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e4001b;
+    --red-deep: #8a0010;
+    --black: #050505;
+    --graphite: #16161a;
+    --white: #ffffff;
+    --mute: #b9b9c0;
+    --display: "Teko", "Arial Narrow", Impact, sans-serif;
+    --body: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: var(--body); }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 3px solid var(--white); outline-offset: 3px; }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: absolute; inset: 0 0 auto 0; z-index: 5;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px; padding: 20px clamp(20px, 5vw, 64px);
+  }
+  .logo { font-family: var(--display); font-weight: 700; font-size: 1.6rem; line-height: 1; letter-spacing: .04em; }
+  .logo { display: grid; grid-template-columns: auto auto; column-gap: 12px; align-items: center; justify-content: start; }
+  .logo img { grid-row: 1 / 3; width: 64px; height: auto; }
+  .logo span { display: block; font-size: .8rem; letter-spacing: .32em; color: var(--red); }
+  .nav { display: flex; gap: clamp(14px, 2.4vw, 34px); font-weight: 500; font-size: .95rem; }
+  .nav a { padding: 6px 0; border-bottom: 2px solid transparent; transition: border-color .2s; }
+  .nav a:hover { border-color: var(--red); }
+  .auth { display: flex; gap: 10px; }
+  .btn {
+    display: inline-block; padding: 12px 28px; font-family: var(--display);
+    font-size: 1.3rem; font-weight: 500; letter-spacing: .06em; line-height: 1;
+    clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+    transition: background .2s, color .2s, transform .2s;
+  }
+  .btn-red { background: var(--red); color: var(--white); }
+  .btn-red:hover { background: var(--white); color: var(--red); }
+  .btn-line { background: var(--white); color: var(--black); }
+  .btn-line:hover { background: var(--red); color: var(--white); }
+  .btn-sm { padding: 9px 22px; font-size: 1.1rem; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden;
+    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+    align-items: center; gap: 32px;
+    padding: 130px clamp(20px, 5vw, 64px) 140px;
+    background: var(--black);
+  }
+  /* the signature ROG slashes */
+  .slash { position: absolute; background: var(--red); pointer-events: none; }
+  .slash.a { width: 62%; height: 150%; right: -8%; top: -25%; transform: skewX(-24deg); background: linear-gradient(160deg, var(--red) 0%, var(--red-deep) 100%); }
+  .slash.b { width: 9%; height: 150%; right: 48%; top: -25%; transform: skewX(-24deg); background: var(--red); opacity: .9; }
+  .slash.c { width: 2.4%; height: 150%; right: 40%; top: -25%; transform: skewX(-24deg); background: var(--white); opacity: .85; }
+  .hero::after { /* dark grid lines over the red for a tech feel */
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(115deg, transparent 0 46px, rgba(0,0,0,.14) 46px 47px);
+  }
+
+  .copy { position: relative; z-index: 2; max-width: 640px; }
+  .plan-tag {
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px;
+    padding: 6px 14px 6px 10px; border: 1px solid rgba(255,255,255,.25);
+    font-size: .85rem; color: var(--mute);
+  }
+  .plan-tag i { width: 10px; height: 10px; background: #f5b82e; transform: rotate(45deg); }
+  h1 {
+    font-family: var(--display); font-weight: 700; font-style: italic;
+    font-size: clamp(4rem, 11vw, 9rem); line-height: .86; letter-spacing: .01em;
+    text-transform: uppercase;
+  }
+  h1 .line { display: block; overflow: hidden; }
+  h1 .line > span { display: block; animation: rise .8s cubic-bezier(.2,.8,.2,1) both; }
+  h1 .line:nth-child(2) > span { animation-delay: .12s; color: transparent; -webkit-text-stroke: 2px var(--white); }
+  h1 .line:nth-child(3) > span { animation-delay: .24s; }
+  @keyframes rise { from { transform: translateY(105%); } to { transform: none; } }
+
+  .lede { margin: 26px 0 32px; max-width: 46ch; color: var(--mute); font-size: 1.05rem; line-height: 1.6; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 14px; }
+
+  /* ---------- Live gauge panel (echoes the Dashboard page) ---------- */
+  .stage { position: relative; z-index: 2; justify-self: center; width: min(100%, 460px); }
+  .hero-logo { display: block; width: 78%; margin: 0 auto 18px; filter: drop-shadow(0 14px 24px rgba(0,0,0,.55)); animation: rise .9s .3s cubic-bezier(.2,.8,.2,1) both; }
+  .panel {
+    background: rgba(5,5,5,.88); border: 1px solid rgba(255,255,255,.18);
+    padding: 22px; backdrop-filter: blur(6px);
+    clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 0 100%);
+  }
+  .panel-head { display: flex; justify-content: space-between; font-size: .85rem; color: var(--mute); margin-bottom: 18px; }
+  .panel-head b { color: var(--red); font-weight: 600; }
+  .gauges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .gauge { text-align: center; }
+  .ring {
+    --v: 60; position: relative; width: 100%; aspect-ratio: 1; border-radius: 50%;
+    background: conic-gradient(var(--red) calc(var(--v) * 1%), #2a2a30 0);
+    display: grid; place-items: center;
+  }
+  .ring::before { content: ""; position: absolute; inset: 11%; border-radius: 50%; background: var(--black); }
+  .ring strong { position: relative; font-family: var(--display); font-size: 1.7rem; font-weight: 500; }
+  .gauge span { display: block; margin-top: 8px; font-size: .75rem; color: var(--mute); }
+  .fan { margin-top: 20px; }
+  .fan div { display: flex; justify-content: space-between; font-size: .8rem; color: var(--mute); margin-bottom: 6px; }
+  .bar { height: 8px; background: #2a2a30; }
+  .bar i { display: block; height: 100%; width: 68%; background: var(--red); animation: load 1.4s .5s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes load { from { width: 0; } }
+  /* Swap this for a real product photo: <img src="your-image.png" alt="..."> */
+  .stage-note { margin-top: 12px; font-size: .75rem; color: rgba(255,255,255,.65); text-align: right; }
+
+  /* ---------- Category strip ---------- */
+  .cats {
+    position: absolute; z-index: 3; inset: auto 0 0 0;
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    background: rgba(5,5,5,.92); border-top: 2px solid var(--red);
+  }
+  .cats a {
+    padding: 22px 12px; text-align: center; font-family: var(--display);
+    font-size: 1.5rem; letter-spacing: .08em; border-right: 1px solid rgba(255,255,255,.1);
+    transition: background .2s;
+  }
+  .cats a:last-child { border-right: 0; }
+  .cats a:hover { background: var(--red); }
+  .cats small { display: block; font-family: var(--body); font-size: .75rem; letter-spacing: 0; color: var(--mute); }
+  .cats a:hover small { color: var(--white); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .nav { display: none; }
+    .hero { grid-template-columns: 1fr; padding-top: 110px; padding-bottom: 170px; }
+    .stage { display: none; }
+    .slash.a { width: 90%; right: -40%; }
+    .slash.b, .slash.c { display: none; }
+    .cats { grid-template-columns: repeat(3, 1fr); }
+    .cats a:nth-child(n+4) { display: none; }
+  }
+  @media (max-width: 480px) {
+    .btn-sm { padding: 8px 14px; }
+    .cats a { font-size: 1.2rem; padding: 16px 6px; }
+    .cats small { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="#" class="logo" aria-label="Republic of Gamers home"><img src="rog-logo.png" alt="">REPUBLIC OF<span>GAMERS</span></a>
+  <nav class="nav" aria-label="Main">
+    <a href="#monitors">Monitors</a>
+    <a href="#mobile">Mobile</a>
+    <a href="#keyboards">Keyboards</a>
+    <a href="#headsets">Headsets</a>
+    <a href="#laptops">Laptops</a>
+  </nav>
+  <div class="auth">
+    <a href="#signin" class="btn btn-line btn-sm">Sign in</a>
+    <a href="#signup" class="btn btn-red btn-sm">Sign up</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="slash a"></div><div class="slash b"></div><div class="slash c"></div>
+
+    <div class="copy">
+      <p class="plan-tag"><i></i>Normal, Premium and Elite plans available</p>
+      <h1 id="hero-title">
+        <span class="line"><span>For those</span></span>
+        <span class="line"><span>who</span></span>
+        <span class="line"><span>dare</span></span>
+      </h1>
+      <p class="lede">Laptops, phones, monitors, keyboards and headsets built for gamers. Create an account to save favorites, track orders and monitor your gear.</p>
+      <div class="cta-row">
+        <a href="#signup" class="btn btn-red">Sign up</a>
+        <a href="#laptops" class="btn btn-line">Shop products</a>
+      </div>
+    </div>
+
+    <aside class="stage" aria-label="Sample dashboard preview">
+      <img class="hero-logo" src="rog-logo.png" alt="Republic of Gamers logo">
+      <div class="panel">
+        <div class="panel-head"><span>Dashboard</span><b>Live stats</b></div>
+        <div class="gauges">
+          <div class="gauge"><div class="ring" style="--v:62"><strong>62°</strong></div><span>GPU temp</span></div>
+          <div class="gauge"><div class="ring" style="--v:78"><strong>78%</strong></div><span>GPU clock</span></div>
+          <div class="gauge"><div class="ring" style="--v:45"><strong>45%</strong></div><span>GPU power</span></div>
+        </div>
+        <div class="fan">
+          <div><span>Fan speed</span><span>68%</span></div>
+          <div class="bar"><i></i></div>
+        </div>
+      </div>
+      <p class="stage-note">Preview of the Dashboard page</p>
+    </aside>
+
+    <nav class="cats" aria-label="Product categories">
+      <a href="#monitors">Monitors<small>Displays</small></a>
+      <a href="#mobile">Mobile<small>ROG Phone</small></a>
+      <a href="#keyboards">Keyboards<small>Strix Scope</small></a>
+      <a href="#headsets">Headsets<small>Delta</small></a>
+      <a href="#laptops">Laptops<small>Strix, Flow</small></a>
+    </nav>
+  </section>
+</main>
+
+</body>
+</html>
